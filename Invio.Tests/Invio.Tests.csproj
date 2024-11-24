@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Invio.Application\Invio.Application.csproj" />
     <ProjectReference Include="..\Invio.Domain\Invio.Domain.csproj" />
   </ItemGroup>
 

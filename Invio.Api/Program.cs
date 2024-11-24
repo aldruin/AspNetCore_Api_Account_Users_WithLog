@@ -1,3 +1,4 @@
+using Invio.Application.Configurations;
 using Invio.Domain.Entities;
 using Invio.Infrastructure.Configurations;
 using Invio.Infrastructure.Context;
@@ -49,7 +50,8 @@ builder.Services.AddIdentity<Usuario, IdentityRole<Guid>>(options =>
 
 
 builder.Services
-    .RegisterRepository();
+    .RegisterRepository()
+    .RegisterApplication(builder.Configuration);
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

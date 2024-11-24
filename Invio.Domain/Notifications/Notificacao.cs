@@ -7,6 +7,6 @@ using System.Threading.Tasks;
 namespace Invio.Domain.Notifications;
 public class Notificacao
 {
-    public required string Key { get; set; }
-    public required string Message { get; set; }
+    public required string Acao { get; set; }
+    public required string Mensagem { get; set; }
 }

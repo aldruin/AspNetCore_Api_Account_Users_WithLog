@@ -9,4 +9,5 @@ namespace Invio.Application.Interfaces;
 public interface IUsuarioService
 {
     Task<UsuarioDto> CriaUsuarioAsync(UsuarioDto usuarioDto);
+    Task<List<UsuarioDto>> ObterUsuariosAsync();
 }

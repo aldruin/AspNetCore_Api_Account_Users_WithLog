@@ -29,7 +29,6 @@ builder.Services.AddIdentity<Usuario, IdentityRole<Guid>>(options =>
 .AddDefaultTokenProviders();
 
 
-
 //este código abaixo trouxe erro ao realizar a migration, esta comentado para fins de documentação
 //builder.Services.AddIdentityCore<Usuario>(options =>
 //{
@@ -59,11 +58,27 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment())
+using (var scope = app.Services.CreateScope())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole<Guid>>>();
+    var roleNames = new[] { "Administrador", "Usuario", "Gerente" };
+
+    foreach (var roleName in roleNames)
+    {
+        var roleExist = await roleManager.RoleExistsAsync(roleName);
+        if(!roleExist)
+        {
+            var role = new IdentityRole<Guid>(roleName);
+            await roleManager.CreateAsync(role);
+        }
+    }
 }
+
+    if (app.Environment.IsDevelopment())
+    {
+        app.UseSwagger();
+        app.UseSwaggerUI();
+    }
 
 app.UseHttpsRedirection();
 

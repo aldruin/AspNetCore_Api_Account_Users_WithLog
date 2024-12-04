@@ -1,5 +1,6 @@
 ﻿using Invio.Application.DataObjectsTransfer;
 using Invio.Application.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,6 +18,7 @@ public class UsuarioController : ControllerBase
         _notificationHandler = notificationHandler;
     }
 
+    [Authorize(Roles = "Administrador")]
     [HttpPost("criar")]
     public async Task<IActionResult> CriaUsuarioAsync([FromBody] UsuarioDto usuarioDto)
     {
@@ -31,4 +33,20 @@ public class UsuarioController : ControllerBase
         return BadRequest(notificacoes);
     }
 
+    [Authorize(Roles = "Administrador")]
+    [HttpGet("get")]
+    public async Task<IActionResult> ObterUsuariosAsync()
+    {
+        var usuarios = await _usuarioService.ObterUsuariosAsync();
+        var notificacoes = _notificationHandler.ObterNotificacoes();
+
+        if (usuarios != null)
+        {
+            var resultado = new { usuarios, notificacoes };
+            return Ok(resultado);
+        }
+        return BadRequest(notificacoes);
+    }
+
+    
 }

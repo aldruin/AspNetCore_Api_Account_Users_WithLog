@@ -20,56 +20,20 @@ public static class ConfigurationModule
         services.AddScoped<IUsuarioService, UsuarioService>();
         services.AddScoped<INotificationHandler, NotificationHandler>();
 
-        //services.AddHttpClient();
+        services.AddCors(options =>
+        {
+            options.AddPolicy("AllowSpecificOrigin",
+                builder => builder
+                    .WithOrigins("http://localhost:4200") // Seu front-end
+                    .AllowAnyHeader()
+                    .AllowAnyMethod()
+                    .AllowCredentials()); // Permite cookies
+        });
 
-        //services.AddCors(options =>
-        //{
-        //    options.AddPolicy("AllowSpecificOrigin",
-        //        builder => builder
-        //            .WithOrigins("http://localhost:4200")
-        //            .AllowAnyHeader()
-        //            .AllowAnyMethod());
-        //});
 
-        //services.AddControllers();
-
-        
         var info = new OpenApiInfo();
         info.Version = "V1";
         info.Title = "API Invio - Gestão de Usuarios";
-
-        //services.AddSwaggerGen(c =>
-        //{
-        //    c.SwaggerDoc("v1", info);
-        //    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-        //    {
-        //        Description = "Insira o token JWT desta maneira : Bearer {seu token}",
-        //        Name = "Authorization",
-        //        BearerFormat = "JWT",
-        //        In = ParameterLocation.Header,
-        //        Type = SecuritySchemeType.ApiKey,
-        //        Scheme = "Bearer"
-
-        //    });
-        //    c.AddSecurityRequirement(new OpenApiSecurityRequirement()
-        //        {
-        //            {
-        //                new OpenApiSecurityScheme
-        //                {
-        //                    Reference = new OpenApiReference
-        //                    {
-        //                        Type = ReferenceType.SecurityScheme,
-        //                        Id = "Bearer"
-        //                    },
-        //                    Scheme = "oauth2",
-        //                    Name = "Bearer",
-        //                    In= ParameterLocation.Header,
-
-        //                },
-        //                new List<string>()
-        //            }
-        //        });
-        //});
 
         return services;
     }
